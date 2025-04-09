@@ -1,0 +1,63 @@
+package ADS_Assignment_2;
+
+public class MyArrayList<T> implements MyList<T> {
+    private Object[] data;
+    private int size;
+
+    public MyArrayList() {
+        data = new Object[10]; // начальная вместимость
+        size = 0;
+    }
+
+    @Override
+    public void add(T element) {
+        if (size == data.length) {
+            resize(); // увеличиваем размер массива
+        }
+        data[size++] = element;
+    }
+
+    private void resize() {
+        Object[] newData = new Object[data.length * 2];
+        for (int i = 0; i < data.length; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
+    }
+
+    @Override
+    public T get(int index) {
+        if (index >= size || index < 0) throw new IndexOutOfBoundsException();
+        return (T) data[index];
+    }
+
+    @Override
+    public T remove(int index) {
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        T removed = (T) data[index];
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        data[--size] = null;
+        return removed;
+    }
+
+
+    @Override
+    public void set(int index, T element) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        data[index] = element;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+}
